@@ -7,7 +7,7 @@ def matrizAleatoria(n):
 
 def minDistintoDeCero(l):
     l2 = l.copy()
-    for i in range(len(l2) - 1):
+    for i in range(len(l2)):
         if l2[i] == 0:
             l2[i] = np.nan
     result = int(np.nanmin(l2))
@@ -21,38 +21,40 @@ def dijkstra(matriz):
     distancias = np.zeros((n, n))
         
     for m in range(n):
+        # enumeramos todos los nodos
         noVisitados = np.arange(n)
+        # y quitamos m, que es sobre el que estamos operando
         noVisitados = np.delete(noVisitados, m)
-        print('-----------')
+
         for i in range(n):
-            # sobreescribe la fila m de distancias con la fila m de la matriz
+            # sobreescribimos la fila m de distancias con la fila m de la matriz
             distancias[m][i] = matriz[m][i]
         
-        for i in range(n-1):
+        for i in range(n - 1):
             # "v es el nodo que tiene la menor distancia a m Y que no esté visitado"
             
+            # para crear 'fila', se crea una matriz de ceros del tamaño adecuado
+            # y sustituimos por los valores reales que tenemos en 'distancias'
+            # solo si no los hemos visitado. no nos interesa buscar el mínimo 
+            # considerando elementos que ya hemos visitado
             fila = np.zeros(n)
             for i in range(n):
                 if i in noVisitados:
                     fila[i] = distancias[m][i]
-                                
-            v = minDistintoDeCero(fila) # índice, no valor
             
-            print()
-            print(f'fila es        {fila}')
-            print(f'noVisitados es {noVisitados}')
-            print(f'el índice del mínimo es {v}')
-            print()                  
-                        
+            # obtenemos el índice del mínimo ignorando los ceros
+            v = minDistintoDeCero(fila)
+            # lo borramos de 'noVisitados', porque lo acabamos de visitar
             noVisitados = np.delete(noVisitados, np.argwhere(noVisitados == v))
             
             for w in noVisitados:
                 if distancias[m][w] > distancias[m][v] + matriz[v][w]:
                     distancias[m][w] = distancias[m][v] + matriz[v][w]
-    return distancias
+    return distancias.astype(int) # para que los valores sean int y no float
 
-def test(): # cubrir con los ejemplos del pdf
+def test():
     # primer ejemplo
+    print()
     print('primer ejemplo')
     matrizOriginal = np.array([[0,1,8,4,7],
                                [1,0,2,6,5],
@@ -78,6 +80,7 @@ def test(): # cubrir con los ejemplos del pdf
     print(resultado)
     
     # segundo ejemplo
+    print()
     print('segundo ejemplo')
     matrizOriginal = np.array([[0,1,4,7],
                                [1,0,2,8],
