@@ -23,7 +23,6 @@ def minDistintoDeCero(l):
     return minIndex
 
 def dijkstra(matriz):
-    print(matriz)
     n = len(matriz)
     # generar la matriz Distancias con el
     # tamaño correcto, que es lo que vamos a devolver
@@ -36,13 +35,26 @@ def dijkstra(matriz):
         for i in range(n):
             distancias[m][i] = matriz[m][i]
         
-        for i in range(n-1):
-            # v es el nodo que tiene la menor distancia a m Y que no esté visitado
+        for i in range(n - 1):
+            # "v es el nodo que tiene la menor distancia a m Y que no esté visitado"
+            # EL PROBLEMA ES QUE EL MÍNIMO que estamos cogiendo, ya está en novisitados
+            # despues de la primera iteracion. falta la segunda condición
             fila = distancias[m]
-            v = minDistintoDeCero(fila) # es el índice, no el valor
-            noVisitados = np.delete(noVisitados, v)
+            v = minDistintoDeCero(fila) # índice, no valor
+            print()
+            print(f'fila es {fila}')
+            print(f'noVisitados es {noVisitados}')
+            print(f'el índice del mínimo es {v}')
+            print()
+            
+            noVisitados = np.delete(noVisitados, v - 1)
             for w in noVisitados:
                 if distancias[m][w] > distancias[m][v] + matriz[v][w]:
                     distancias[m][w] = distancias[m][v] + matriz[v][w]
+    return distancias
 
-dijkstra(matrizAleatoria(5))
+matrizOriginal = matrizAleatoria(10)
+resultado = dijkstra(matrizOriginal)
+
+print(f'la matriz original era {matrizOriginal}')
+print(f'el resultado fue {resultado}')
