@@ -1,6 +1,8 @@
+import random
 import numpy as np
-from numpy import random
+from prettytable import PrettyTable
 
+# ejercicio 1
 def matrizAleatoria(n):
     m = random.randint(low=1, high=1000, size=(n, n))
     return (np.tril(m, -1) + np.tril(m, -1).T)
@@ -51,6 +53,8 @@ def dijkstra(matriz):
                     distancias[m][w] = distancias[m][v] + matriz[v][w]
     return distancias.astype(int) # para que los valores sean int y no float
 
+# ejercicio 2
+# TODO: implementar MÁS casos que los del pdf
 def test():
     # primer ejemplo
     print()
@@ -103,3 +107,6 @@ def test():
     print(resultado)
 
 test()
+
+# ejercicio 3
+# TODO: cálculo empírico de la complejidad
