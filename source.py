@@ -23,16 +23,19 @@ def dijkstra(matriz):
     for m in range(n):
         noVisitados = np.arange(n)
         noVisitados = np.delete(noVisitados, m)
-
+        print('-----------')
         for i in range(n):
             # sobreescribe la fila m de distancias con la fila m de la matriz
             distancias[m][i] = matriz[m][i]
         
-        print('---------')
-        for i in range(n - 1):
+        for i in range(n-1):
             # "v es el nodo que tiene la menor distancia a m Y que no esté visitado"
             
-            fila = distancias[m]
+            fila = np.zeros(n)
+            for i in range(n):
+                if i in noVisitados:
+                    fila[i] = distancias[m][i]
+                                
             v = minDistintoDeCero(fila) # índice, no valor
             
             print()
