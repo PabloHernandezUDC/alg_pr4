@@ -6,16 +6,15 @@ def matrizAleatoria(n):
     return (np.tril(m, -1) + np.tril(m, -1).T)
 
 def minDistintoDeCero(l):
-    l2 = l.copy()
-    for i in range(len(l2)):
-        if l2[i] == 0:
-            l2[i] = np.nan
-    result = int(np.nanmin(l2))
-    resultIndex = np.where(l==result)[0][0]
+    for i in range(len(l)): # sustituimos los 0s por NaNs
+        if l[i] == 0:
+            l[i] = np.nan
+    result = int(np.nanmin(l)) # obtenemos el mínimo ignorando los NaNs
+    resultIndex = np.where(l==result)[0][0] # obtenemos su índice
     return resultIndex
 
 def dijkstra(matriz):
-    n = len(matriz)
+    n = len(matriz) # necesitamos el tamaño para operar más tarde
     # generar la matriz Distancias con el
     # tamaño correcto, que es lo que vamos a devolver
     distancias = np.zeros((n, n))
