@@ -38,9 +38,8 @@ def matrizAleatoria(n):
     return (np.tril(m, -1) + np.tril(m, -1).T)
 
 def minDistintoDeCero(l):
-    for i in range(len(l)): # sustituimos los 0s por NaNs
-        if l[i] == 0:
-            l[i] = np.nan
+    l = l.copy()
+    l[l == 0] = np.nan # sustituimos los ceros por NaNs
     result = int(np.nanmin(l)) # obtenemos el mínimo ignorando los NaNs
     resultIndex = np.where(l==result)[0][0] # obtenemos su índice
     return resultIndex
@@ -64,21 +63,20 @@ def dijkstra(matriz):
         for i in range(n - 2):
             # "v es el nodo que tiene la menor distancia
             # a m y que además no esté visitado"
-            
+            # "v es el nodo de noVisitados que minimiza Distancias[m][v]"
+                        
             # para crear 'fila', se crea una matriz de ceros del tamaño adecuado
             # y sustituimos por los valores reales que tenemos en 'distancias'
-            # solo si no los hemos visitado. no nos interesa buscar el mínimo 
-            # considerando elementos que ya hemos visitado
+            # solo si los que están en noVisitados. no nos interesa buscar
+            # el mínimo entre elementos que ya hemos visitado
             fila = np.zeros(n)
-            for i in range(n):
-                if i in noVisitados:
-                    fila[i] = distancias[m][i]
+            for i in noVisitados:
+                fila[i] = distancias[m][i]
             
             # obtenemos el índice del mínimo ignorando los ceros
             v = minDistintoDeCero(fila)
             # lo borramos de 'noVisitados', porque lo acabamos de visitar
-            noVisitados = np.delete(noVisitados, np.argwhere(noVisitados == v))
-            
+            noVisitados = noVisitados[noVisitados != v]
             for w in noVisitados:
                 if distancias[m][w] > distancias[m][v] + matriz[v][w]:
                     distancias[m][w] = distancias[m][v] + matriz[v][w]
@@ -88,7 +86,6 @@ def dijkstra(matriz):
 # TODO: implementar MÁS casos que los del pdf
 def test():
     # primer ejemplo
-    print()
     print('primer ejemplo')
     matrizOriginal = np.array([[0,1,8,4,7],
                                [1,0,2,6,5],
@@ -139,7 +136,7 @@ def test():
 
 print('\n///// Ejercicio 2')
 test()
-'''
+
 # ejercicio 3
 # TODO: cálculo empírico de la complejidad
 print('\n///// Ejercicio 3')
@@ -164,9 +161,8 @@ table.align = 'r' # alineamos la tabla a la derecha
 print(table)
 print('Tiempo total de ejecución del ejercicio 3 (en segundos):',
       round(time.time() - start_time, 2))
-'''
 
-lp = LineProfiler()
-lp.add_function(dijkstra)
-lp.run('dijkstra(matrizAleatoria(64))')
-lp.print_stats()
+lp = LineProfiler()                     # creamos un objeto LineProfiler()     
+lp.add_function(dijkstra)               # y le añadimos funciones para ver
+lp.run('dijkstra(matrizAleatoria(64))') # el tiempo de ejecución por línea
+lp.print_stats()                        # (y lo imprimimos)
