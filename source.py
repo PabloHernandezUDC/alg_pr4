@@ -154,7 +154,7 @@ for n in sizes:
     matriz = matrizAleatoria(n)
     executionTime = calcular_tiempo(dijkstra, matriz)
     table.add_row([n, 
-                 "%.0f" % executionTime,           # la sintaxis de "%.nf"      
+                 executionTime,           # la sintaxis de "%.nf"      
                  "%.2f" % (executionTime / n),     # sirve para redondear
                  "%.2f" % (executionTime / n**2),  # a exactamente n decimales,
                  "%.2f" % (executionTime / n**3)]) # sean ceros o no
