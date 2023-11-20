@@ -136,28 +136,30 @@ def test():
     print('el resultado es')
     print(resultado)
 
-print('///// Ejercicio 2')
+print('\n///// Ejercicio 2')
 test()
 
 # ejercicio 3
 # TODO: cálculo empírico de la complejidad
-print('///// Ejercicio 3')
+print('\n///// Ejercicio 3')
 
 start_time = time.time()
 sizes = [2**i for i in range(7)]
 table = PrettyTable()
-table.title = 'Matrices aleatorias'
+table.title = 'Matrices de adyacencia aleatorias con n vértices'
 table.field_names = ['n', 't(n)(ns)', 't(n)/n', 't(n)/n**2', 't(n)/n**3']
 
 for n in sizes:
     # matriz aleatoria
     matriz = matrizAleatoria(n)
     executionTime = calcular_tiempo(dijkstra, matriz)
-    table.add_row([n, executionTime,
-                 round(executionTime / n, 2),
-                 round(executionTime / n**2, 2),
-                 round(executionTime / n**3, 2)])
+    table.add_row([n, 
+                 "%.0f" % executionTime,           # la sintaxis de "%.nf"      
+                 "%.2f" % (executionTime / n),     # sirve para redondear
+                 "%.2f" % (executionTime / n**2),  # a exactamente n decimales,
+                 "%.2f" % (executionTime / n**3)]) # sean ceros o no
 
+table.align = 'r' # alineamos la tabla a la derecha
 print(table)
 print('Tiempo total de ejecución del ejercicio 3 (en segundos):',
       round(time.time() - start_time, 2))
