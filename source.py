@@ -1,10 +1,39 @@
-import random
+import random, time
 import numpy as np
 from prettytable import PrettyTable
 
+def calcular_tiempo(func, m):
+    start = time.perf_counter_ns()
+    func(m)
+    finish = time.perf_counter_ns()
+    t = finish - start
+    # solo se ejecuta si no cumplimos con el umbral de confianza
+    if t < 500000: # 500 microsegundos = 500000 ns
+        n = len(m)
+        k = 100
+        
+        start = time.perf_counter_ns()
+        for i in range(k):
+            matriz = matrizAleatoria(n)
+            func(matriz)
+        finish = time.perf_counter_ns()
+        t1 = finish - start
+
+        start = time.perf_counter_ns()
+        for i in range(k):
+            matriz = matrizAleatoria(n)
+        finish = time.perf_counter_ns()
+        t2 = finish - start
+
+        t = (t1 - t2) / k
+        if t < 0:
+            print(f'///// Valor negativo con n={n}, anomalía.')
+
+    return t
+
 # ejercicio 1
 def matrizAleatoria(n):
-    m = random.randint(low=1, high=1000, size=(n, n))
+    m = np.random.randint(low=1, high=1000, size=(n, n))
     return (np.tril(m, -1) + np.tril(m, -1).T)
 
 def minDistintoDeCero(l):
@@ -31,8 +60,9 @@ def dijkstra(matriz):
             # sobreescribimos la fila m de distancias con la fila m de la matriz
             distancias[m][i] = matriz[m][i]
         
-        for i in range(n - 1):
-            # "v es el nodo que tiene la menor distancia a m Y que no esté visitado"
+        for i in range(n - 2):
+            # "v es el nodo que tiene la menor distancia
+            # a m y que además no esté visitado"
             
             # para crear 'fila', se crea una matriz de ceros del tamaño adecuado
             # y sustituimos por los valores reales que tenemos en 'distancias'
@@ -106,7 +136,28 @@ def test():
     print('el resultado es')
     print(resultado)
 
+print('///// Ejercicio 2')
 test()
 
 # ejercicio 3
 # TODO: cálculo empírico de la complejidad
+print('///// Ejercicio 3')
+
+start_time = time.time()
+sizes = [2**i for i in range(7)]
+table = PrettyTable()
+table.title = 'Matrices aleatorias'
+table.field_names = ['n', 't(n)(ns)', 't(n)/n', 't(n)/n**2', 't(n)/n**3']
+
+for n in sizes:
+    # matriz aleatoria
+    matriz = matrizAleatoria(n)
+    executionTime = calcular_tiempo(dijkstra, matriz)
+    table.add_row([n, executionTime,
+                 round(executionTime / n, 2),
+                 round(executionTime / n**2, 2),
+                 round(executionTime / n**3, 2)])
+
+print(table)
+print('Tiempo total de ejecución del ejercicio 3 (en segundos):',
+      round(time.time() - start_time, 2))
