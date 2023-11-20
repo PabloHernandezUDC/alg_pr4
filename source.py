@@ -1,6 +1,7 @@
 import random, time
 import numpy as np
 from prettytable import PrettyTable
+from line_profiler import LineProfiler
 
 def calcular_tiempo(func, m):
     start = time.perf_counter_ns()
@@ -138,7 +139,7 @@ def test():
 
 print('\n///// Ejercicio 2')
 test()
-
+'''
 # ejercicio 3
 # TODO: cálculo empírico de la complejidad
 print('\n///// Ejercicio 3')
@@ -163,3 +164,9 @@ table.align = 'r' # alineamos la tabla a la derecha
 print(table)
 print('Tiempo total de ejecución del ejercicio 3 (en segundos):',
       round(time.time() - start_time, 2))
+'''
+
+lp = LineProfiler()
+lp.add_function(dijkstra)
+lp.run('dijkstra(matrizAleatoria(64))')
+lp.print_stats()
