@@ -53,7 +53,7 @@ def dijkstra(matriz):
     for m in range(n):
         # enumeramos todos los nodos
         noVisitados = np.arange(n)
-        # y quitamos m, que es sobre el que estamos operando
+        # y quitamos m, ya que no se puede visitar a sí mismo
         noVisitados = np.delete(noVisitados, m)
 
         for i in range(n):
@@ -61,24 +61,36 @@ def dijkstra(matriz):
             distancias[m][i] = matriz[m][i]
         
         for i in range(n - 2):
-            # "v es el nodo que tiene la menor distancia
-            # a m y que además no esté visitado"
-            # "v es el nodo de noVisitados que minimiza Distancias[m][v]"
-                        
-            # para crear 'fila', se crea una matriz de ceros del tamaño adecuado
+            # para crear 'fila', se crea un array de ceros del tamaño adecuado
             # y sustituimos por los valores reales que tenemos en 'distancias'
-            # solo si los que están en noVisitados. no nos interesa buscar
+            # solo si están en noVisitados. no nos interesa buscar
             # el mínimo entre elementos que ya hemos visitado
             fila = np.zeros(n)
             fila[noVisitados] = distancias[m, noVisitados]
             
-            # obtenemos el índice del mínimo ignorando los ceros
+            # obtenemos los índices de los elementos distintos que cero
             nonzero_indices = np.nonzero(fila)[0]
+            # obtenemos el índice del mínimo en la lista de índices
             v = nonzero_indices[np.argmin(fila[nonzero_indices])]
+
             # lo borramos de 'noVisitados', porque lo acabamos de visitar
             noVisitados = noVisitados[noVisitados != v]
-            mask = (distancias[m, v] + matriz[v, noVisitados]) < distancias[m, noVisitados]
+            
+            # guardamos los índices de los nodos no visitados que tienen un
+            # camino más corto que pasa por el mínimo en una máscara de numpy
+            mask = distancias[m, noVisitados] > (distancias[m, v] + matriz[v, noVisitados])
+            # después los sustituimos
             distancias[m, noVisitados[mask]] = distancias[m, v] + matriz[v, noVisitados[mask]]
+            
+            '''
+            teníamos una versión idéntica a la del pseudocódigo pero esta
+            comparación era significativamente más lenta/costosa
+            
+            for w in noVisitados:
+                if distancias[m][w] > distancias[m][v] + matriz[v][w]:
+                    distancias[m][w] = distancias[m][v] + matriz[v][w]
+            '''
+            
     return distancias.astype(int) # para que los valores sean int y no float
 
 # ejercicio 2
@@ -141,20 +153,20 @@ test()
 print('\n///// Ejercicio 3')
 
 start_time = time.time()
-sizes = [2**i for i in range(12)]
+sizes = [2**i for i in range(9+1)]
 table = PrettyTable()
 table.title = 'Matrices de adyacencia aleatorias con n vértices'
-table.field_names = ['n', 't(n)(ns)', 't(n)/n', 't(n)/n**2', 't(n)/n**3']
+table.field_names = ['n', 't(n)(ns)', 't(n)/n**2', 't(n)/n**2.5', 't(n)/n**3']
 
 for n in sizes:
     # matriz aleatoria
     matriz = matrizAleatoria(n)
     executionTime = calcular_tiempo(dijkstra, matriz)
     table.add_row([n, 
-                 executionTime,                    # la sintaxis de "%.nf"      
-                 "%.2f" % (executionTime / n),     # sirve para redondear
-                 "%.2f" % (executionTime / n**2),  # a exactamente n decimales,
-                 "%.2f" % (executionTime / n**3)]) # sean ceros o no
+                 executionTime,                     # la sintaxis de "%.nf"      
+                 "%.2f" % (executionTime / n**2),   # sirve para redondear
+                 "%.2f" % (executionTime / n**2.5), # a exactamente n decimales,
+                 "%.2f" % (executionTime / n**3)])  # sean ceros o no
 
 table.align = 'r' # alineamos la tabla a la derecha
 print(table)
