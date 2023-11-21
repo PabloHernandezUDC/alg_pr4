@@ -70,16 +70,15 @@ def dijkstra(matriz):
             # solo si los que están en noVisitados. no nos interesa buscar
             # el mínimo entre elementos que ya hemos visitado
             fila = np.zeros(n)
-            for i in noVisitados:
-                fila[i] = distancias[m][i]
+            fila[noVisitados] = distancias[m, noVisitados]
             
             # obtenemos el índice del mínimo ignorando los ceros
-            v = minDistintoDeCero(fila)
+            nonzero_indices = np.nonzero(fila)[0]
+            v = nonzero_indices[np.argmin(fila[nonzero_indices])]
             # lo borramos de 'noVisitados', porque lo acabamos de visitar
             noVisitados = noVisitados[noVisitados != v]
-            for w in noVisitados:
-                if distancias[m][w] > distancias[m][v] + matriz[v][w]:
-                    distancias[m][w] = distancias[m][v] + matriz[v][w]
+            mask = (distancias[m, v] + matriz[v, noVisitados]) < distancias[m, noVisitados]
+            distancias[m, noVisitados[mask]] = distancias[m, v] + matriz[v, noVisitados[mask]]
     return distancias.astype(int) # para que los valores sean int y no float
 
 # ejercicio 2
@@ -142,7 +141,7 @@ test()
 print('\n///// Ejercicio 3')
 
 start_time = time.time()
-sizes = [2**i for i in range(7)]
+sizes = [2**i for i in range(12)]
 table = PrettyTable()
 table.title = 'Matrices de adyacencia aleatorias con n vértices'
 table.field_names = ['n', 't(n)(ns)', 't(n)/n', 't(n)/n**2', 't(n)/n**3']
