@@ -32,7 +32,16 @@ def calcular_tiempo(func, m):
 
     return t
 
+def fM(m):
+    #le sumamos un espacio y le quitamos el primer y último caracter (corchetes)
+    return ' ' + str(m)[1:-1] 
+
 # ejercicio 1
+print('''
+///// Ejercicio 1
+En este ejercicio tan solo implementamos las
+funciones matrizAleatoria() y dijkstra().  
+''')
 def matrizAleatoria(n):
     m = np.random.randint(low=1, high=1000, size=(n, n))
     return (np.tril(m, -1) + np.tril(m, -1).T)
@@ -89,44 +98,45 @@ for w in noVisitados:
 # ejercicio 2
 # TODO: implementar MÁS casos que los del pdf
 def test():
-    # primer ejemplo
-    print('primer ejemplo')
-    matrizOriginal = np.array([[0,1,8,4,7],
-                               [1,0,2,6,5],
-                               [8,2,0,9,5],
-                               [4,6,9,0,3],
-                               [7,5,5,3,0]])
+    tablaPrimerEjemplo = PrettyTable()
+    tablaPrimerEjemplo.title = 'Primer ejemplo'
+    tablaPrimerEjemplo.field_names = ['Matriz original', 'Solución',
+                                      'Resultado', '¿Funciona?']
+    
+    mOriginal = np.array([[0,1,8,4,7],
+                          [1,0,2,6,5],
+                          [8,2,0,9,5],
+                          [4,6,9,0,3],
+                          [7,5,5,3,0]])
     solucion = np.array([[0,1,3,4,6],
                          [1,0,2,5,5],
                          [3,2,0,7,5],
                          [4,5,7,0,3],
                          [6,5,5,3,0]])
-    resultado = dijkstra(matrizOriginal)
-    print('la matriz original era')
-    print(matrizOriginal)
-    print('la solución correcta es')
-    print(solucion)
-    print('el resultado es')
-    print(resultado)
+    resultado = dijkstra(mOriginal)
+    tablaPrimerEjemplo.add_row([fM(mOriginal), fM(solucion), fM(resultado),
+                                ('✓' if solucion.all() == resultado.all()
+                                     else 'x')])
+    print(tablaPrimerEjemplo)
     
-    # segundo ejemplo
-    print()
-    print('segundo ejemplo')
-    matrizOriginal = np.array([[0,1,4,7],
-                               [1,0,2,8],
-                               [4,2,0,3],
-                               [7,8,3,0]])
+    tablaSegundoEjemplo = PrettyTable()
+    tablaSegundoEjemplo.title = 'Segundo ejemplo'
+    tablaSegundoEjemplo.field_names = ['Matriz original', 'Solución',
+                                       'Resultado', '¿Funciona?']
+    
+    mOriginal = np.array([[0,1,4,7],
+                          [1,0,2,8],
+                          [4,2,0,3],
+                          [7,8,3,0]])
     solucion = np.array([[0,1,3,6],
                          [1,0,2,5],
                          [3,2,0,3],
                          [6,5,3,0]])
-    resultado = dijkstra(matrizOriginal)
-    print('la matriz original era')
-    print(matrizOriginal)
-    print('la solución correcta es')
-    print(solucion)
-    print('el resultado es')
-    print(resultado)
+    resultado = dijkstra(mOriginal)
+    tablaSegundoEjemplo.add_row([fM(mOriginal), fM(solucion), fM(resultado),
+                                ('✓' if solucion.all() == resultado.all()
+                                     else 'x')])
+    print(tablaSegundoEjemplo)
 
 print('\n///// Ejercicio 2')
 test()
@@ -147,7 +157,7 @@ for n in sizes:
     table.add_row([n, 
                    executionTime,                       # la sintaxis de "%.nf"      
                    "%.2f" % (executionTime / n**2.1),   # sirve para redondear
-                   "%.2f" % (executionTime / n**2.15),  # a  n decimales,
+                   "%.2f" % (executionTime / n**2.15),  # a n decimales,
                    "%.2f" % (executionTime / n**2.2)])  # sean ceros o no
 
 table.align = 'r' # alineamos la tabla a la derecha
@@ -155,7 +165,10 @@ print(table)
 print('Tiempo total de ejecución del ejercicio 3 (en segundos):',
       round(time.time() - start_time, 2))
 
+'''
+# para probar la eficiencia del algoritmo línea por línea
 lp = LineProfiler()                     # creamos un objeto LineProfiler()     
 lp.add_function(dijkstra)               # y le añadimos funciones para ver
 lp.run('dijkstra(matrizAleatoria(64))') # el tiempo de ejecución por línea
 lp.print_stats()                        # (y lo imprimimos)
+'''
