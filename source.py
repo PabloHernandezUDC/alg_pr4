@@ -39,9 +39,10 @@ def fM(m):
 # ejercicio 1
 print('''
 ///// Ejercicio 1
-En este ejercicio tan solo implementamos las
-funciones matrizAleatoria() y dijkstra().  
+En este ejercicio tan solo implementamos las funciones matrizAleatoria() y
+dijkstra() en el código de Python.
 ''')
+
 def matrizAleatoria(n):
     m = np.random.randint(low=1, high=1000, size=(n, n))
     return (np.tril(m, -1) + np.tril(m, -1).T)
@@ -78,22 +79,13 @@ def dijkstra(matriz):
             # lo borramos de 'noVisitados', porque lo acabamos de visitar
             noVisitados = noVisitados[noVisitados != v]
             
-            # guardamos los índices de los nodos no visitados que tienen un
-            # camino más corto que pasa por el mínimo en una máscara de numpy
-            mask = distancias[m, noVisitados] > (distancias[m, v] + matriz[v, noVisitados])
-            # después los sustituimos
-            distancias[m, noVisitados[mask]] = distancias[m, v] + matriz[v, noVisitados[mask]]
+            # para cada nodo en la fila comprobamos si el camino
+            # a través del mínimo es más corto
+            for w in noVisitados:
+                if distancias[m][w] > distancias[m][v] + matriz[v][w]:
+                    distancias[m][w] = distancias[m][v] + matriz[v][w]
             
     return distancias.astype(int) # para que los valores sean int y no float
-     
-'''
-teníamos una versión idéntica a la del pseudocódigo pero esta
-comparación era significativamente más lenta/costosa
-
-for w in noVisitados:
-    if distancias[m][w] > distancias[m][v] + matriz[v][w]:
-        distancias[m][w] = distancias[m][v] + matriz[v][w]
-'''
 
 # ejercicio 2
 # TODO: implementar MÁS casos que los del pdf
@@ -145,25 +137,26 @@ test()
 print('\n///// Ejercicio 3')
 
 start_time = time.time()
-sizes = [2**i for i in range(9+1)]
+sizes = [2**i for i in range(7, 10+1)]
 table = PrettyTable()
 table.title = 'Matrices de adyacencia aleatorias con n vértices'
-table.field_names = ['n','t(n)(ns)','t(n)/n**2.1','t(n)/n**2.15','t(n)/n**2.2']
+table.field_names=['n','t(n)(ns)','t(n)/n**2.75','t(n)/n**3','t(n)/n**3.25']
 
 for n in sizes:
     # matriz aleatoria
     matriz = matrizAleatoria(n)
     executionTime = calcular_tiempo(dijkstra, matriz)
-    table.add_row([n, 
-                   executionTime,                       # la sintaxis de "%.nf"      
-                   "%.2f" % (executionTime / n**2.1),   # sirve para redondear
-                   "%.2f" % (executionTime / n**2.15),  # a n decimales,
-                   "%.2f" % (executionTime / n**2.2)])  # sean ceros o no
+    table.add_row([n,
+                   executionTime,
+                   "%.2f" % (executionTime / n**2.75),
+                   "%.2f" % (executionTime / n**3),
+                   "%.2f" % (executionTime / n**3.25)])
+    # la sintaxis de "%.nf" sirve para redondear a n decimales, sean ceros o no
 
 table.align = 'r' # alineamos la tabla a la derecha
 print(table)
-print('Tiempo total de ejecución del ejercicio 3 (en segundos):',
-      round(time.time() - start_time, 2))
+print('Tiempo total de ejecución del ejercicio 3:',
+      f'{round(time.time() - start_time, 2)} segundos.')
 
 '''
 # para probar la eficiencia del algoritmo línea por línea
