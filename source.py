@@ -1,4 +1,4 @@
-import random, time
+import time
 import numpy as np
 from prettytable import PrettyTable
 from line_profiler import LineProfiler
@@ -37,13 +37,6 @@ def matrizAleatoria(n):
     m = np.random.randint(low=1, high=1000, size=(n, n))
     return (np.tril(m, -1) + np.tril(m, -1).T)
 
-def minDistintoDeCero(l):
-    l = l.copy()
-    l[l == 0] = np.nan # sustituimos los ceros por NaNs
-    result = int(np.nanmin(l)) # obtenemos el mínimo ignorando los NaNs
-    resultIndex = np.where(l==result)[0][0] # obtenemos su índice
-    return resultIndex
-
 def dijkstra(matriz):
     n = len(matriz) # necesitamos el tamaño para operar más tarde
     # generar la matriz Distancias con el
@@ -58,7 +51,7 @@ def dijkstra(matriz):
 
         for i in range(n):
             # sobreescribimos la fila m de distancias con la fila m de la matriz
-            distancias[m][i] = matriz[m][i]
+            distancias[m, i] = matriz[m, i]
         
         for i in range(n - 2):
             # para crear 'fila', se crea un array de ceros del tamaño adecuado
@@ -82,16 +75,16 @@ def dijkstra(matriz):
             # después los sustituimos
             distancias[m, noVisitados[mask]] = distancias[m, v] + matriz[v, noVisitados[mask]]
             
-            '''
-            teníamos una versión idéntica a la del pseudocódigo pero esta
-            comparación era significativamente más lenta/costosa
-            
-            for w in noVisitados:
-                if distancias[m][w] > distancias[m][v] + matriz[v][w]:
-                    distancias[m][w] = distancias[m][v] + matriz[v][w]
-            '''
-            
     return distancias.astype(int) # para que los valores sean int y no float
+     
+'''
+teníamos una versión idéntica a la del pseudocódigo pero esta
+comparación era significativamente más lenta/costosa
+
+for w in noVisitados:
+    if distancias[m][w] > distancias[m][v] + matriz[v][w]:
+        distancias[m][w] = distancias[m][v] + matriz[v][w]
+'''
 
 # ejercicio 2
 # TODO: implementar MÁS casos que los del pdf
@@ -103,21 +96,16 @@ def test():
                                [8,2,0,9,5],
                                [4,6,9,0,3],
                                [7,5,5,3,0]])
-    
     solucion = np.array([[0,1,3,4,6],
                          [1,0,2,5,5],
                          [3,2,0,7,5],
                          [4,5,7,0,3],
                          [6,5,5,3,0]])
-    
     resultado = dijkstra(matrizOriginal)
-    
     print('la matriz original era')
     print(matrizOriginal)
-    
     print('la solución correcta es')
     print(solucion)
-
     print('el resultado es')
     print(resultado)
     
@@ -128,20 +116,15 @@ def test():
                                [1,0,2,8],
                                [4,2,0,3],
                                [7,8,3,0]])
-    
     solucion = np.array([[0,1,3,6],
                          [1,0,2,5],
                          [3,2,0,3],
                          [6,5,3,0]])
-    
     resultado = dijkstra(matrizOriginal)
-    
     print('la matriz original era')
     print(matrizOriginal)
-    
     print('la solución correcta es')
     print(solucion)
-
     print('el resultado es')
     print(resultado)
 
@@ -149,24 +132,23 @@ print('\n///// Ejercicio 2')
 test()
 
 # ejercicio 3
-# TODO: cálculo empírico de la complejidad
 print('\n///// Ejercicio 3')
 
 start_time = time.time()
 sizes = [2**i for i in range(9+1)]
 table = PrettyTable()
 table.title = 'Matrices de adyacencia aleatorias con n vértices'
-table.field_names = ['n', 't(n)(ns)', 't(n)/n**2', 't(n)/n**2.5', 't(n)/n**3']
+table.field_names = ['n','t(n)(ns)','t(n)/n**2.1','t(n)/n**2.15','t(n)/n**2.2']
 
 for n in sizes:
     # matriz aleatoria
     matriz = matrizAleatoria(n)
     executionTime = calcular_tiempo(dijkstra, matriz)
     table.add_row([n, 
-                 executionTime,                     # la sintaxis de "%.nf"      
-                 "%.2f" % (executionTime / n**2),   # sirve para redondear
-                 "%.2f" % (executionTime / n**2.5), # a exactamente n decimales,
-                 "%.2f" % (executionTime / n**3)])  # sean ceros o no
+                   executionTime,                       # la sintaxis de "%.nf"      
+                   "%.2f" % (executionTime / n**2.1),   # sirve para redondear
+                   "%.2f" % (executionTime / n**2.15),  # a  n decimales,
+                   "%.2f" % (executionTime / n**2.2)])  # sean ceros o no
 
 table.align = 'r' # alineamos la tabla a la derecha
 print(table)
