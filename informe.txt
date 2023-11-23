@@ -3,7 +3,12 @@ Iván Moure Pérez - i.moure@udc.es
 
 
 -----Informe Práctica 4 Algoritmos-----
-
+Esta práctica consiste en implementar el algoritmo de Dijkstra mediante el
+pseudocódigo que nos ha sido dado, validar que la implementación funcione 
+correctamente (usando los datos que se proporcionan en las figuras 1 y 2), y por
+último calcular empíricamente la complejidad computacional del algoritmo para el 
+cálculo de las distancias mínimas (para grafos completos no dirigidos, con pesos
+entre 1 y 1000)
 
 -----Especificaciones de la máquina-----
 Procesador: Intel® Core™ i7-1195G7 2.9GHz 
@@ -12,56 +17,17 @@ Sistema operativo: Windows 11 Home 64 bits
 Versión de Python: 3.10.5 64-bit
 
 
-
 -----Ejercicio 1-----
 El ejercicio 1 se trataba de implementar en PYTHON el algoritmo de Dijkstra
 utilizando como base el pseudocódigo proporcionado.
-
-
------Ejercicio 2-----
-El ejercicio 2 trataba de Validar que la implementación funcionaba correctamente.
-Utilizando los datos que se mostraban en las figuras 1 y 2 se del enunciado.
-
-
------Ejercicio 3-----
-El ejercicio 3 trataba de calcular empíricamente la complejidad computacional
-del algoritmo para el cálculo de las distancias mínimas. Generar los grafos
-completos no dirigidos con pesos aleatorios entre 1 y 1000; con la posibilidad de
-usar uno de los dos códigos propuestos en la figura 3.
-
-En este caso, hemos utilizado n**2.75 como cota subestimada, n**3 como cota 
-ajustada y n**3.25 como cota sobreestimada.
-
-Podemos deducir que en la tabla, la cota ajustada tiende a la constante
-400.
-
-
------Tiempos medidos en bucles-----
-En el caso de haber obtenido valores temporales que no hubiesen cumplido con el
-umbral de confianza, habríamos iterado 100 veces el cálculo para recibir un 
-resultado más preciso. En este caso, no hemos obtenido valores por debajo del
-umbral.
-
-
------Mediciones anómalas-----
-No hemos obtenido valores temporales que se desvíen de los demás, probablemente
-debido a las pocas iteraciones que realizamos (debido al tiempo de ejecución)
-
------Conclusiones-----
-
-
-
-
-
-
-ejemplo de ejecución
-|||||
-VVVVV
 
 ///// Ejercicio 1
 En este ejercicio tan solo implementamos las funciones matrizAleatoria() y
 dijkstra() en el código de Python.
 
+-----Ejercicio 2-----
+El ejercicio 2 trata de validar que la implementación funcionase correctamente.
+Utilizando los datos que se mostraban en las figuras 1 y 2 se del enunciado.
 
 ///// Ejercicio 2
 +------------------------------------------------------------+
@@ -86,6 +52,18 @@ dijkstra() en el código de Python.
 |     [7 8 3 0]   |  [6 5 3 0] |  [6 5 3 0] |            |
 +-----------------+------------+------------+------------+
 
+-----Ejercicio 3-----
+El ejercicio 3 trataba de calcular empíricamente la complejidad computacional
+del algoritmo para el cálculo de las distancias mínimas. Generar los grafos
+completos no dirigidos con pesos aleatorios entre 1 y 1000; con la posibilidad 
+de usar uno de los dos códigos propuestos en la figura 3.
+
+En este caso, hemos utilizado n**2.75 como cota subestimada, n**3 como cota 
+ajustada y n**3.25 como cota sobreestimada.
+
+Podemos deducir que en la tabla, la cota ajustada tiende a la constante
+400.
+
 ///// Ejercicio 3
 +---------------------------------------------------------------+
 |        Matrices de adyacencia aleatorias con n vértices       |
@@ -98,3 +76,23 @@ dijkstra() en el código de Python.
 | 1024 | 426258819100 |      2245.68 |    396.98 |        70.18 |
 +------+--------------+--------------+-----------+--------------+
 Tiempo total de ejecución del ejercicio 3: 487.34 segundos.
+
+
+-----Tiempos medidos en bucles-----
+En el caso de haber obtenido valores temporales que no hubiesen cumplido con el
+umbral de confianza, habríamos iterado 100 veces el cálculo para recibir un 
+resultado más preciso. En este caso, no hemos obtenido valores por debajo del
+umbral.
+
+
+-----Mediciones anómalas-----
+No hemos obtenido valores temporales que se desvíen de los demás, probablemente
+debido a las pocas iteraciones que realizamos (debido al tiempo de ejecución)
+
+-----Conclusiones-----
+
+
+
+
+
+
