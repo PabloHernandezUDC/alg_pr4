@@ -21,7 +21,7 @@ Versión de Python: 3.10.5 64-bit
 El ejercicio 1 se trataba de implementar en PYTHON el algoritmo de Dijkstra
 utilizando como base el pseudocódigo proporcionado.
 
-///// Ejercicio 1
+**** Ejercicio 1****
 En este ejercicio tan solo implementamos las funciones matrizAleatoria() y
 dijkstra() en el código de Python.
 
@@ -29,7 +29,7 @@ dijkstra() en el código de Python.
 El ejercicio 2 trata de validar que la implementación funcionase correctamente.
 Utilizando los datos que se mostraban en las figuras 1 y 2 se del enunciado.
 
-///// Ejercicio 2
+**** Ejercicio 2****
 +------------------------------------------------------------+
 |                       Primer ejemplo                       |
 +-----------------+--------------+--------------+------------+
@@ -64,7 +64,7 @@ ajustada y n**3.25 como cota sobreestimada.
 Podemos deducir que en la tabla, la cota ajustada tiende a la constante
 400.
 
-///// Ejercicio 3
+**** Ejercicio 3****
 +---------------------------------------------------------------+
 |        Matrices de adyacencia aleatorias con n vértices       |
 +------+--------------+--------------+-----------+--------------+

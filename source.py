@@ -38,7 +38,7 @@ def fM(m):
 
 # ejercicio 1
 print('''
-///// Ejercicio 1
+****Ejercicio 1****
 En este ejercicio tan solo implementamos las funciones matrizAleatoria() y
 dijkstra() en el código de Python.
 ''')
@@ -130,11 +130,11 @@ def test():
                                      else 'x')])
     print(tablaSegundoEjemplo)
 
-print('\n///// Ejercicio 2')
+print('\n**** Ejercicio 2****')
 test()
 
 # ejercicio 3
-print('\n///// Ejercicio 3')
+print('\n**** Ejercicio 3****')
 
 start_time = time.time()
 sizes = [2**i for i in range(7, 10+1)]
@@ -157,11 +157,3 @@ table.align = 'r' # alineamos la tabla a la derecha
 print(table)
 print('Tiempo total de ejecución del ejercicio 3:',
       f'{round(time.time() - start_time, 2)} segundos.')
-
-'''
-# para probar la eficiencia del algoritmo línea por línea
-lp = LineProfiler()                     # creamos un objeto LineProfiler()     
-lp.add_function(dijkstra)               # y le añadimos funciones para ver
-lp.run('dijkstra(matrizAleatoria(64))') # el tiempo de ejecución por línea
-lp.print_stats()                        # (y lo imprimimos)
-'''
