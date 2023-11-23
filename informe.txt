@@ -63,17 +63,18 @@ Podemos deducir que en la tabla, la cota ajustada tiende a la constante
 400. Este sería un ejemplo de ejecución:
 
 > **** Ejercicio 3****
-> +---------------------------------------------------------------+
-> |        Matrices de adyacencia aleatorias con n vértices       |
-> +------+--------------+--------------+-----------+--------------+
-> |    n |     t(n)(ns) | t(n)/n**2.75 | t(n)/n**3 | t(n)/n**3.25 |
-> +------+--------------+--------------+-----------+--------------+
-> |  128 |    866411900 |      1389.62 |    413.14 |       122.83 |
-> |  256 |   6455077500 |      1539.01 |    384.75 |        96.19 |
-> |  512 |  53746833600 |      1904.85 |    400.45 |        84.18 |
-> | 1024 | 426258819100 |      2245.68 |    396.98 |        70.18 |
-> +------+--------------+--------------+-----------+--------------+
-> Tiempo total de ejecución del ejercicio 3: 487.34 segundos.
+> +------------------------------------------------------------+
+> |      Matrices de adyacencia aleatorias con n vértices      |
+> +-----+------------+--------------+-----------+--------------+
+> |   n |   t(n)(ns) | t(n)/n**2.75 | t(n)/n**3 | t(n)/n**3.25 |
+> +-----+------------+--------------+-----------+--------------+
+> |   8 |     556800 |      1828.95 |   1087.50 |       646.63 | ┐
+> |  16 |    3013500 |      1471.44 |    735.72 |       367.86 | | Estos valores
+> |  32 |   18542100 |      1345.85 |    565.86 |       237.91 | | son anómalos
+> |  64 |  123939600 |      1337.26 |    472.79 |       167.16 | ┘
+> | 128 |  875431300 |      1404.09 |    417.44 |       124.11 | 
+> | 256 | 6699839900 |      1597.37 |    399.34 |        99.84 |
+> +-----+------------+--------------+-----------+--------------+
 
 -----Tiempos medidos en bucles-----
 En el caso de haber obtenido valores temporales que no hubiesen cumplido con el
@@ -82,9 +83,10 @@ resultado más preciso. En este caso, no hemos obtenido valores por debajo del
 umbral.
 
 -----Mediciones anómalas-----
-No hemos obtenido valores temporales que se desvíen de los demás, probablemente
-debido a las pocas iteraciones que realizamos (debido al tiempo de ejecución).
-Tampoco hemos obtenido valores negativos.
+Los valores que hemos obtenido que considerábamos anómalos están indicados en la
+tabla del ejercicio 3. Es muy probable que estas anomalías se deban a que n toma
+valores demasiado bajos como para obtener medidas fiables. No hemos obtenido
+valores negativos.
 
 -----Conclusiones-----
 En esta práctica hemos deducido empíricamente la complejidad del algoritmo de

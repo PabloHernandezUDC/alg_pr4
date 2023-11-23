@@ -137,21 +137,24 @@ test()
 print('\n**** Ejercicio 3****')
 
 start_time = time.time()
-sizes = [2**i for i in range(7, 10+1)]
+n = 8
 table = PrettyTable()
 table.title = 'Matrices de adyacencia aleatorias con n vértices'
 table.field_names=['n','t(n)(ns)','t(n)/n**2.75','t(n)/n**3','t(n)/n**3.25']
 
-for n in sizes:
+while True:
     # matriz aleatoria
     matriz = matrizAleatoria(n)
     executionTime = calcular_tiempo(dijkstra, matriz)
     table.add_row([n,
-                   executionTime,
-                   "%.2f" % (executionTime / n**2.75),
-                   "%.2f" % (executionTime / n**3),
-                   "%.2f" % (executionTime / n**3.25)])
+                executionTime,
+                "%.2f" % (executionTime / n**2.75),
+                "%.2f" % (executionTime / n**3),
+                "%.2f" % (executionTime / n**3.25)])
     # la sintaxis de "%.nf" sirve para redondear a n decimales, sean ceros o no
+    n *= 2
+    if executionTime > 10**9: # si nos hemos pasado de un segundo, salimos
+        break
 
 table.align = 'r' # alineamos la tabla a la derecha
 print(table)
