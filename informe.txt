@@ -94,5 +94,6 @@ Dijkstra para una matriz de adyacencia de un grafo completo no dirigido con
 aristas ponderadas con pesos positivos (ya que el algoritmo no funcionaría con
 pesos negativos). Dicha complejidad parece O(n^3), ya que al dividir el tiempo
 por dicha cota ajustada observamos que los valores tienden a una constante de 
-400. Esto tiene mucho sentido, ya que la implementación recorre un bucle anidado
-dentro de un bucle anidado dentro de un bucle.
+400. Esto tiene mucho sentido, ya que la implementación utiliza un bucle anidado
+dentro de otro bucle dentro de otro bucle, y cada uno de ellos recorre
+aproximadamente n vértices.

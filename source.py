@@ -4,15 +4,16 @@ from prettytable import PrettyTable
 from line_profiler import LineProfiler
 
 def calcular_tiempo(func, m):
+    # medimos el tiempo de la función que se le pasa, y si está por debajo del
+    # umbral de confianza, medimos la media de k iteraciones
     start = time.perf_counter_ns()
     func(m)
     finish = time.perf_counter_ns()
     t = finish - start
-    # solo se ejecuta si no cumplimos con el umbral de confianza
     if t < 500000: # 500 microsegundos = 500000 ns
         n = len(m)
         k = 100
-        
+
         start = time.perf_counter_ns()
         for i in range(k):
             matriz = matrizAleatoria(n)
@@ -33,7 +34,9 @@ def calcular_tiempo(func, m):
     return t
 
 def fM(m):
-    #le sumamos un espacio y le quitamos el primer y último caracter (corchetes)
+    # esta función solo está para que las matrices queden bien alineadas
+    # cuando se imprimen. para ello, le sumamos un espacio y le quitamos el
+    # primer y último caracter (corchetes)
     return ' ' + str(m)[1:-1] 
 
 # ejercicio 1
@@ -44,6 +47,10 @@ dijkstra() en el código de Python.
 ''')
 
 def matrizAleatoria(n):
+    # inicializamos una matriz de tamaño n x n con pesos aleatorios
+    # entre 1 y 1000. después, cogemos su triangular inferior y le sumamos la
+    # propia traspuesta para que sea simétrica y sea equivalente a la matriz de
+    # adyacencia de un grafo completo. la diagonal es 0
     m = np.random.randint(low=1, high=1000, size=(n, n))
     return (np.tril(m, -1) + np.tril(m, -1).T)
 
@@ -88,7 +95,6 @@ def dijkstra(matriz):
     return distancias.astype(int) # para que los valores sean int y no float
 
 # ejercicio 2
-# TODO: implementar MÁS casos que los del pdf
 def test():
     tablaPrimerEjemplo = PrettyTable()
     tablaPrimerEjemplo.title = 'Primer ejemplo'
@@ -137,7 +143,7 @@ test()
 print('\n**** Ejercicio 3****')
 
 start_time = time.time()
-n = 8
+n = 8 # empezamos en 2^3
 table = PrettyTable()
 table.title = 'Matrices de adyacencia aleatorias con n vértices'
 table.field_names=['n','t(n)(ns)','t(n)/n**2.75','t(n)/n**3','t(n)/n**3.25']
